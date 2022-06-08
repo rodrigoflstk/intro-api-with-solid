@@ -1,0 +1,334 @@
+{
+    "openapi": "3.0.0",
+    "info": {
+        "title": "User Management",
+        "description": "This is an API for User Management!",
+        "version": "1.0.0",
+        "contatc": {
+            "email": "jrodrigo0592@gmail.com"
+        }
+    },
+
+    "paths": {
+        "/users": {
+            "post": {
+                "tags": ["Users"],
+                "summary": "Create a new user",
+                "description": "Create a new User with name, email, ID(UUID) and dates",
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "name": {
+                                        "type": "string"
+                                    },
+                                    "email": {
+                                        "type": "string"
+                                    }
+                                },
+                                "example": {
+                                    "name": "User sample",
+                                    "email": "Email sample"
+                                }
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Sucessfuly Created",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "admin": {
+                                            "type": "boolean"
+                                        },
+                                          "id": {
+                                            "type": "string"
+                                        },
+                                          "name": {
+                                            "type": "string"
+                                        },
+                                          "email": {
+                                            "type": "string"
+                                        },
+                                          "created_at": {
+                                            "type": "string"
+                                        },
+                                          "updated_at": {
+                                            "type": "string"
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Email Already Exists",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "error": {
+                                            "type": "string"
+                                        }
+                                    },
+                                    "example": {
+                                        "error": "Email Already Exists"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "get": {
+                "tags": ["Users"],
+                "summary": "List",
+                "description": "receives an ID on the route params and, if that user which id was typed is an `admin`, User's list should be returned",
+                "parameters": [
+                    {
+                        "in": "header",
+                        "name": "user_id",
+                        "required": "true",
+                        "schema":  {
+                            "type": "string",
+                            "format": "uuid"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Sucess",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "type": "object",
+                                        "properties": {
+                                            "admin": {
+                                                "type": "boolean"
+                                            },
+                                            "id": {
+                                                "type": "string"
+                                            },
+                                            "name": {
+                                                "type": "string"
+                                            },
+                                            "email": {
+                                                "type": "string"
+                                            },
+                                            "created_at": {
+                                                "type": "string"
+                                            },
+                                            "updated_at": {
+                                                "type": "string"
+                                            }
+                                        },
+                                        "example": [
+                                            {
+                                                "admin": true,
+                                                "id": "c5c739c0-4576-47a4-82f5-8b314d2eba21",
+                                                "name": "Rocketseat",
+                                                "email": "oi@rocketseat.com.br",
+                                                "created_at": "2021-03-21T20:32:40.759Z",
+                                                "updated_at": "2021-03-21T20:32:40.759Z"
+                                            },
+                                            {
+                                                "admin": false,
+                                                "id": "d32e9e4e-43cd-4f64-a393-4f0158c9e348",
+                                                "name": "Vinícius Fraga",
+                                                "email": "vinicius.fraga@rocketseat.com.br",
+                                                "created_at": "2021-03-10T23:14:43.081Z",
+                                                "updated_at": "2021-03-10T23:14:43.081Z"
+                                            }
+                                        ]
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "User is not an admin",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "error": {
+                                            "type": "string"
+                                        }
+                                    },
+                                    "example": {
+                                        "error": "User is not an admin!"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+                
+        },
+        "/users/{user_id}": {
+            "get": {
+                "tags": ["Users"],
+                "summary": "List by ID",
+                "description": "List an user information by your ID",
+                "parameters": [
+                    {
+                        "in": "path",
+                        "name": "user_id",
+                        "required": true,
+                        "description": "ID do usuário",
+                        "schema": {
+                        "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Sucess",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                        "properties": {
+                                            "admin": {
+                                                "type": "boolean"
+                                            },
+                                            "id": {
+                                                "type": "string"
+                                            },
+                                            "name": {
+                                                "type": "string"
+                                            },
+                                            "email": {
+                                                "type": "string"
+                                            },
+                                            "created_at": {
+                                                "type": "string"
+                                            },
+                                            "updated_at": {
+                                                "type": "string"
+                                            }
+                                        },
+                                        "example":
+                                        {
+                                            "admin": false,
+                                            "id": "c5c739c0-4576-47a4-82f5-8b314d2eba21",
+                                            "name": "Rocketseat",
+                                            "email": "oi@rocketseat.com.br",
+                                            "created_at": "2021-03-21T20:32:40.759Z",
+                                            "updated_at": "2021-03-21T20:32:40.759Z"
+                                        }
+                                    }
+                                }
+                            }
+                        },
+                        "404": {
+                            "description": "User not found",
+                            "content": {
+                                "application/json": {
+                                    "schema": {
+                                        "type": "object",
+                                        "properties": {
+                                            "error": {
+                                                "type": "string"
+                                            }
+                                        },
+                                        "example": {
+                                            "error": "User not found!"
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+        },
+        "/users/{user_id}/admin": {
+            "patch": {
+                "tags": ["Users"],
+                "summary": "Turn admin",
+                "description": "Turn as `admin` an user which id was typed on the route params",
+                "parameters": [
+                    {
+                        "in": "path",
+                        "name": "user_id",
+                        "required": true,
+                        "description": "ID do usuário",
+                        "schema": {
+                        "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Sucess",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                        "properties": {
+                                            "admin": {
+                                                "type": "boolean"
+                                            },
+                                            "id": {
+                                                "type": "string"
+                                            },
+                                            "name": {
+                                                "type": "string"
+                                            },
+                                            "email": {
+                                                "type": "string"
+                                            },
+                                            "created_at": {
+                                                "type": "string"
+                                            },
+                                            "updated_at": {
+                                                "type": "string"
+                                            }
+                                        },
+                                        "example":
+                                        {
+                                            "admin": true,
+                                            "id": "c5c739c0-4576-47a4-82f5-8b314d2eba21",
+                                            "name": "Rocketseat",
+                                            "email": "oi@rocketseat.com.br",
+                                            "created_at": "2021-03-21T20:32:40.759Z",
+                                            "updated_at": "2021-03-21T20:32:40.759Z"
+                                        }
+                                    }
+                                }
+                            }
+                        },
+                        "404": {
+                            "description": "User not found",
+                            "content": {
+                                "application/json": {
+                                    "schema": {
+                                        "type": "object",
+                                        "properties": {
+                                            "error": {
+                                                "type": "string"
+                                            }
+                                        },
+                                        "example": {
+                                            "error": "User not found!"
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+        }
+    }
+}
